@@ -120,7 +120,7 @@ class Prim
             recuperaadj(v, v, &w, &peso, grafo);
             heap.push(cria_aresta(peso, v, w));
             p = proximoadj(v, p, grafo);
-            std::cout << "finish." << std::endl;
+            std::cout << "finished." << std::endl;
         }
 
         while(!heap.empty()){
