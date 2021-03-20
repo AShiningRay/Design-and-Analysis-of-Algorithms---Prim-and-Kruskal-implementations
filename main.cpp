@@ -1,83 +1,54 @@
 #include "ADTs/Prim.hpp"
 #include "ADTs/Kruskal.hpp"
-
+#include <cmath>
 #include <iostream>
 #include <fstream>
+#include <string.h>
+
+float EucledeanDistance(float x1, float y1, float x2, float y2);
 
 int main()
 {
-    fstream data_file, classes_file;
+    std::ifstream data_file;
+    std::ifstream classes_file;
     data_file.open("./Files/dados.txt", ios::in);
     classes_file.open("./Files/classes.txt", ios::in);
 
-
-    if (!data_file)
-		std::cout << "There is no such data file or directory!" << std::endl;
-
-	else
-		std::cout << "Data file has been opened successfully!" << std::endl;
-
-    if (!classes_file)
-		std::cout << "There is no such classes file or directory!" << std::endl;
-
-	else
-		std::cout << "Classes file has been opened successfully!" << std::endl;
-
-
-    unsigned int numlines = 0;
     std::string readline;
 
     float pointxyval[788][2]; //[x][y]
-    unsigned int id[numlines]; // Stores a given point's class.
-    char tofloat[6];
-
-    while (getline(data_file, readline) )
-    {
-        readline.copy(tofloat, 5, 0);
-        for(unsigned int i = 0; i < 5; i++)
-            if(tofloat[i] == '\t')
-                tofloat[i] = NULL;
-        pointxyval[numlines][0] = atof(tofloat);
-
-
-        readline.copy(tofloat, 5, 5);
-        for(unsigned int i = 0; i < 5; i++)
-            if(tofloat[i] == '\t')
-                tofloat[i] = NULL;
-        pointxyval[numlines][1] = atof(tofloat);
-
-        std::cout << tofloat << std::endl;
-        //std::cout << readline << std::endl;
-        numlines++;
+    float classes[788];
+    int i=0;
+    char *piece_data;
+    while(!data_file.eof()){
+        getline(data_file, readline);
+        piece_data = strtok(&readline[0], "	");
+        pointxyval[i][0] = atof(piece_data);
+        piece_data = strtok(NULL, "	");
+        pointxyval[i][1] = atof(piece_data);
+        i++;
     }
 
-    numlines = 0;
-
-    /*while (getline(data_file, readline) )
-    {
-        readline.copy(tofloat, 6, 0);
-        std::cout << "Lal " << tofloat << std::endl;
-        pointxyval[numlines][0] = atof(tofloat);
-        //std::cout << "Array:" << pointxyval[numlines][0] << std::endl;
-        numlines++;
-    }*/
-
-    numlines = 0;
-
-    /*while (getline(classes_file, readline) )
-    {
-        //std::cout << readline << std::endl;
-
-        //printf("Test:%c\n", readline.c_str());
-
-        id[numlines] = atoi(readline.c_str());
-        numlines++;
-    }*/
-
-
-    for(unsigned int i=0; i < 788; i++)
-    {
-        std::cout << "Array X:" << pointxyval[i][0] << " Array Y: " << pointxyval[i][1] << std::endl;
+    float aux = pointxyval[0][0];
+    i=0;
+    while(!classes_file.eof()){
+        getline(classes_file, readline);
+        classes[i] = atoi(&readline[0]);
+        i++;
     }
+     pointxyval[0][0] = aux;
 
+    for (i=0; i<787; i++){
+        printf("distancia do ponto (%.2f, %.2f) ate o ponto (%.2f, %.2f) e: %.2f\n",pointxyval[i][0], pointxyval[i][1], pointxyval[i+1][0], pointxyval[i+1][1], EucledeanDistance(pointxyval[i][0], pointxyval[i][1], pointxyval[i+1][0], pointxyval[i+1][1]));
+    }
+    i = 0;
+
+    while(i<788){
+        std::cout<<"Valor classes: "<<classes[i]<<std::endl;
+        i++;
+    }
+}
+
+float EucledeanDistance(float x1, float y1, float x2, float y2){
+    return sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
 }
