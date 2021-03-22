@@ -10,7 +10,7 @@ class Graph // Struct used to simulate (i.e. Visually demonstrate) a graph
 {
     public:
     int vertexnum, edgenum;
-    vector< pair<int, pairedInteger> > edgevector;
+    vector< pair<float, pairedInteger> > edgevector;
 
     Graph(int vertexnum, int edgenum)
     {
@@ -18,7 +18,7 @@ class Graph // Struct used to simulate (i.e. Visually demonstrate) a graph
         this->edgenum = edgenum;
     }
 
-    void addEdgeAndWeight(int vert1, int vert2, int weight)
+    void addEdgeAndWeight(int vert1, int vert2, float weight)
     {
         edgevector.push_back({weight, {vert1, vert2}}); // Adds an edge between vertexes
     }
@@ -46,16 +46,16 @@ struct DisjointSets // Struct to simulate the Disjoint Sets
     }
 
     // Find the parent value of a given node
-    int find(int u)
+    int findParent(int u)
     {
         if (u != parentval[u])
-            parentval[u] = find(parentval[u]);
+            parentval[u] = findParent(parentval[u]);
         return parentval[u];
     }
 
-    void merge(int val1, int val2) // Union of sets by rank
+    void uniteByRank(int val1, int val2) // Union of sets by rank
     {
-        val1 = find(val1), val2 = find(val2);
+        val1 = findParent(val1), val2 = findParent(val2);
 
         if (setrank[val1] > setrank[val2]) // If the first tree has a smaller height than the second one, make it a subtree of the taller
             parentval[val2] = val1;
@@ -76,23 +76,23 @@ int Graph::kruskalAlgorithm() // Executes the Algorithm of Kruskal
 
     DisjointSets ds(vertexnum);
 
-    vector< pair<int, pairedInteger> >::iterator iteration;
+    vector< pair<float, pairedInteger> >::iterator edge_iteration;
 
-    for (iteration=edgevector.begin(); iteration!=edgevector.end(); iteration++) // Check edge by edge to find the MST
+    for (edge_iteration=edgevector.begin(); edge_iteration!=edgevector.end(); edge_iteration++) // Check edge by edge to findParent the MST
     {
-        int vert1 = iteration->second.first;
-        int vert2 = iteration->second.second;
+        int vert1 = edge_iteration->second.first;
+        int vert2 = edge_iteration->second.second;
 
-        int set_vert1 = ds.find(vert1);
-        int set_vert2 = ds.find(vert2);
+        int set_vert1 = ds.findParent(vert1);
+        int set_vert2 = ds.findParent(vert2);
 
         if (set_vert1 != set_vert2) // Checks if the selected edge creates a Cycle
         {
-            printf("%d <-> %d || %d\n",vert1, vert2, iteration->first); // Used to print the edge currently in the MST
+            printf("%d <-> %d || %f\n",vert1, vert2, edge_iteration->first); // Used to print the edge currently in the MST
 
-            mst_weightval += iteration->first; // Sum the weight of the path to the total weight of the MST
+            mst_weightval += edge_iteration->first; // Sum the weight of the path to the total weight of the MST
 
-            ds.merge(set_vert1, set_vert2);
+            ds.uniteByRank(set_vert1, set_vert2);
         }
     }
     return mst_weightval;
