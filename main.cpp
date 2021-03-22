@@ -62,12 +62,13 @@ int main()
 
     for (i=0; i<line_data_size; i++){
         for (int j=i+1; j<line_data_size; j++){
-            graph.addEdgeAndWeight(vertex[i], vertex[j], EuclideanDistance(pointxyval[i][0], pointxyval[i][1], pointxyval[j][0], pointxyval[j][1]));
+            graph.addEdgeAndWeight(vertex[i], vertex[j], EuclideanDistance(pointxyval[i][0], pointxyval[i][1], pointxyval[j][0], pointxyval[j][1]), classes[j]);
         }
     }
 
+    graph.kruskalAlgorithm();
 
-    int mst_weightval = graph.kruskalAlgorithm();
+    return 0;
 }
 
 float EuclideanDistance(float x1, float y1, float x2, float y2)
