@@ -13,7 +13,7 @@ int main()
     std::ifstream classes_file;
     std::string readline;
 
-    int numlines = 0;
+    int numlines = 0, line_data_size=0;
 
     data_file.open("./Files/dados.txt", ios::in);
     while(getline(data_file, readline) )
@@ -41,6 +41,7 @@ int main()
         pointxyval[i][1] = atof(piece_data);
         i++;
     }
+    line_data_size = i;
     data_file.close();
     i=0;
     readline = "\0";
@@ -52,14 +53,19 @@ int main()
         i++;
     }
 
-    int vertexnum = 788, edgenum = 787;
+
+
+    int vertexnum = line_data_size, edgenum = (((line_data_size * line_data_size) - line_data_size)/2);
+
     Graph graph(vertexnum, edgenum);
 
 
-    for (i=0; i<numlines; i++)
-    {
-        graph.addEdgeAndWeight(vertex[i], vertex[i+1], EuclideanDistance(pointxyval[i][0], pointxyval[i][1], pointxyval[i+1][0], pointxyval[i+1][1]));
+    for (i=0; i<line_data_size; i++){
+        for (int j=i+1; j<line_data_size; j++){
+            graph.addEdgeAndWeight(vertex[i], vertex[j], EuclideanDistance(pointxyval[i][0], pointxyval[i][1], pointxyval[j][0], pointxyval[j][1]));
+        }
     }
+
 
     int mst_weightval = graph.kruskalAlgorithm();
 }
