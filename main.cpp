@@ -62,7 +62,7 @@ int main()
     for (i=0; i<numlines; i++){
         for (int j=i+1; j<numlines; j++){
             graph_kruskal.addEdgeAndWeight(vertex[i], vertex[j], EuclideanDistance(pointxyval[i][0], pointxyval[i][1], pointxyval[j][0], pointxyval[j][1]));
-            graph_prim.put_edge(vertex[i], vertex[j], (1000*EuclideanDistance(pointxyval[i][0], pointxyval[i][1], pointxyval[j][0], pointxyval[j][1])));
+            graph_prim.put_edge(vertex[i], vertex[j], (EuclideanDistance(pointxyval[i][0], pointxyval[i][1], pointxyval[j][0], pointxyval[j][1])));
         }
     }
     graph_kruskal.kruskalAlgorithm(classes_kruskal);

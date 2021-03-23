@@ -1,12 +1,12 @@
 #include<bits/stdc++.h>
 #define Mem_end 0x3f3f3f3f
 
-typedef std::pair<int, int> Pairs;
+typedef std::pair<int, float> Pairs;
 
 class Graph_Prim
 {
     int Vertex;
-    std::list< std::pair<int, int> > *adjacency;
+    std::list< std::pair<int, float> > *adjacency;
 
 public:
     Graph_Prim(int Vertex);
@@ -32,7 +32,7 @@ void Graph_Prim::calculates_Prim(int *classes)
 
     int origin = 0;
 
-    std::vector<int> vertex_key(Vertex, Mem_end);
+    std::vector<float> vertex_key(Vertex, Mem_end);
 
     std::vector<int> parent_vertex(Vertex, -1);
 
@@ -48,7 +48,7 @@ void Graph_Prim::calculates_Prim(int *classes)
 
         inMST[vert1] = true;  // Include vertex in MST
 
-        std::list< std::pair<int, int> >::iterator cont;
+        std::list< std::pair<int, float> >::iterator cont;
         for (cont = adjacency[vert1].begin(); cont != adjacency[vert1].end(); ++cont)
         {
             int vert2 = (*cont).first;
@@ -67,7 +67,7 @@ void Graph_Prim::calculates_Prim(int *classes)
         if (classes[parent_vertex[i]] != classes[i])
             classes[parent_vertex[i]] = classes[i];
 
-        std::cout << parent_vertex[i] << " <-> " << i << " || " << "" << std::endl;
+        std::cout << "Prim:" << parent_vertex[i] << " <-> " << i << " || " << vertex_key[i] << std::endl;
     }
 }
 
