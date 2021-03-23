@@ -4,13 +4,13 @@
 
 using namespace std;
 
-typedef  pair<int, int> paired_integer; //Defines a type to describe a pair of integers
+typedef  pair<int, int> pairedInteger; //Defines a type to describe a pair of integers
 
 class Graph // Struct used to simulate (i.e. Visually demonstrate) a graph
 {
     public:
-    int vertexnum = 0, edgenum = 0;
-    vector< pair< pair<float, paired_integer>, int> > edgevector{};
+    int vertexnum, edgenum;
+    vector< pair<float, pairedInteger> > edgevector;
 
     Graph(int vertexnum, int edgenum)
     {
@@ -18,18 +18,18 @@ class Graph // Struct used to simulate (i.e. Visually demonstrate) a graph
         this->edgenum = edgenum;
     }
 
-    void addEdgeAndWeight(int vert1, int vert2, float weight, int vertclass)
+    void addEdgeAndWeight(int vert1, int vert2, float weight)
     {
-        edgevector.push_back({{weight, {vert1, vert2}}, vertclass}); // Adds an edge between vertexes
+        edgevector.push_back({weight, {vert1, vert2}}); // Adds an edge between vertexes
     }
 
-    void kruskalAlgorithm(); // Finds the MST using Kruskal's algorithm
+    void kruskalAlgorithm(int *classes); // Finds the MST using Kruskal's algorithm
 };
 
 struct DisjointSets // Struct to simulate the Disjoint Sets
 {
-    int *parentval = nullptr, *setrank = nullptr;
-    int num = 0;
+    int *parentval, *setrank;
+    int num;
 
     DisjointSets(int num)
     {
@@ -67,7 +67,7 @@ struct DisjointSets // Struct to simulate the Disjoint Sets
     }
 };
 
-void Graph::kruskalAlgorithm() // Executes the Algorithm of Kruskal
+void Graph::kruskalAlgorithm(int *classes) // Executes the Algorithm of Kruskal
 {
     int mst_weightval = 0;
 
@@ -76,20 +76,28 @@ void Graph::kruskalAlgorithm() // Executes the Algorithm of Kruskal
 
     DisjointSets ds(vertexnum);
 
-    vector< pair< pair<float, paired_integer>, int> >::iterator edge_iteration;
+    vector< pair<float, pairedInteger> >::iterator edge_iteration;
 
-    for (edge_iteration = edgevector.begin(); edge_iteration!=edgevector.end(); edge_iteration++) // Check edge by edge to findParent the MST
+    for (edge_iteration=edgevector.begin(); edge_iteration!=edgevector.end(); edge_iteration++) // Check edge by edge to findParent the MST
     {
-        int vert1 = edge_iteration->first.second.first;
-        int vert2 = edge_iteration->first.second.second;
+        int vert1 = edge_iteration->second.first;
+        int vert2 = edge_iteration->second.second;
+
+        //printf("Valor vertice1: %d // Valor vertice2: %d\n", vert1, vert2);
 
         int set_vert1 = ds.findParent(vert1);
         int set_vert2 = ds.findParent(vert2);
 
         if (set_vert1 != set_vert2) // Checks if the selected edge creates a Cycle
         {
-            std::cout << vert1 << " <-> " << vert2 << " || " << edge_iteration->second << " || " << edge_iteration->first.first << std::endl; // Used to print the edge currently in the MST
-            mst_weightval += edge_iteration->first.first; // Sum the weight of the path to the total weight of the MST
+
+            if (classes[vert1] != classes[vert2]){
+                classes[vert1] = classes[vert2];
+            }
+
+            printf("%d <-> %d || %f\n",vert1, vert2,edge_iteration->first); // Used to print the edge currently in the MST
+
+            mst_weightval += edge_iteration->first; // Sum the weight of the path to the total weight of the MST
 
             ds.uniteByRank(set_vert1, set_vert2);
         }

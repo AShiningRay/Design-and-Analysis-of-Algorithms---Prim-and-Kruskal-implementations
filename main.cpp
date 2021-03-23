@@ -24,7 +24,7 @@ int main()
     data_file.close();
 
     float pointxyval[numlines][2]; //[x][y]
-    float classes[numlines];
+    int classes_kruskal[numlines], classes_prim[numlines];
     int vertex[numlines];
     int i=0;
     char *piece_data;
@@ -49,11 +49,17 @@ int main()
 
     while(getline(classes_file, readline) )
     {
-        classes[i] = atoi(&readline[0]);
+        classes_kruskal[i] = atoi(&readline[0]);
+        classes_prim[i] = classes_kruskal[i];
         i++;
     }
+    int j=0;
 
-
+    while(j < 788)
+    {
+        printf("Classes: %d\n", classes_kruskal[j]);
+        j++;
+    }
 
     int vertexnum = line_data_size, edgenum = (((line_data_size * line_data_size) - line_data_size)/2);
 
@@ -62,12 +68,20 @@ int main()
 
     for (i=0; i<line_data_size; i++){
         for (int j=i+1; j<line_data_size; j++){
-            graph.addEdgeAndWeight(vertex[i], vertex[j], EuclideanDistance(pointxyval[i][0], pointxyval[i][1], pointxyval[j][0], pointxyval[j][1]), classes[j]);
+            graph.addEdgeAndWeight(vertex[i], vertex[j], EuclideanDistance(pointxyval[i][0], pointxyval[i][1], pointxyval[j][0], pointxyval[j][1]));
         }
     }
 
-    graph.kruskalAlgorithm();
+    printf("Valor %f\n", EuclideanDistance(pointxyval[656][0], pointxyval[656][1], pointxyval[750][0], pointxyval[750][1]));
 
+    graph.kruskalAlgorithm(classes_kruskal);
+    j = 0;
+    while(j < 788)
+    {
+        printf("Classes: %d\n", classes_kruskal[j]);
+        j++;
+    }
+    printf("Valor %f\n", EuclideanDistance(pointxyval[656][0], pointxyval[656][1], pointxyval[750][0], pointxyval[750][1]));
     return 0;
 }
 
