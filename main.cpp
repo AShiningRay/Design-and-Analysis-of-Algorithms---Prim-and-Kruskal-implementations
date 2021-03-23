@@ -16,7 +16,7 @@ int main()
 
     int numlines = 0;
 
-    data_file.open("./Files/dados.txt", ios::in);
+    data_file.open("./Files/dados.txt", std::ios::in);
     while(getline(data_file, readline) )
     {
         numlines++;
@@ -29,7 +29,7 @@ int main()
     int i=0;
     char *piece_data;
 
-    data_file.open("./Files/dados.txt", ios::in);
+    data_file.open("./Files/dados.txt", std::ios::in);
 
     while(getline(data_file, readline) )
     {
@@ -43,7 +43,7 @@ int main()
 
     data_file.close();
     i=0;
-    classes_file.open("./Files/classes.txt", ios::in);
+    classes_file.open("./Files/classes.txt", std::ios::in);
 
     while(getline(classes_file, readline) )
     {
