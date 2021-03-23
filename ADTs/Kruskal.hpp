@@ -9,8 +9,8 @@ typedef  pair<int, int> pairedInteger; //Defines a type to describe a pair of in
 class Graph // Struct used to simulate (i.e. Visually demonstrate) a graph
 {
     public:
-    int vertexnum, edgenum;
-    vector< pair<float, pairedInteger> > edgevector;
+    int vertexnum = 0, edgenum = 0;
+    vector< pair<float, pairedInteger> > edgevector{};
 
     Graph(int vertexnum, int edgenum)
     {
@@ -28,8 +28,8 @@ class Graph // Struct used to simulate (i.e. Visually demonstrate) a graph
 
 struct DisjointSets // Struct to simulate the Disjoint Sets
 {
-    int *parentval, *setrank;
-    int num;
+    int *parentval = nullptr, *setrank = nullptr;
+    int num = 0;
 
     DisjointSets(int num)
     {

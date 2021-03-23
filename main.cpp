@@ -13,14 +13,13 @@ int main()
     std::ifstream classes_file;
     std::string readline;
 
-    int numlines = 0, line_data_size=0;
+    int numlines = 0;
 
     data_file.open("./Files/dados.txt", ios::in);
     while(getline(data_file, readline) )
     {
         numlines++;
     }
-
     data_file.close();
 
     float pointxyval[numlines][2]; //[x][y]
@@ -41,10 +40,9 @@ int main()
         pointxyval[i][1] = atof(piece_data);
         i++;
     }
-    line_data_size = i;
     data_file.close();
     i=0;
-    readline = "\0";
+
     classes_file.open("./Files/classes.txt", ios::in);
 
     while(getline(classes_file, readline) )
@@ -61,18 +59,17 @@ int main()
         j++;
     }
 
-    int vertexnum = line_data_size, edgenum = (((line_data_size * line_data_size) - line_data_size)/2);
+    int vertexnum = numlines, edgenum = (((numlines * numlines) - numlines)/2);
 
     Graph graph(vertexnum, edgenum);
 
 
-    for (i=0; i<line_data_size; i++){
-        for (int j=i+1; j<line_data_size; j++){
+    for (i=0; i<numlines; i++){
+        for (int j=i+1; j<numlines; j++){
             graph.addEdgeAndWeight(vertex[i], vertex[j], EuclideanDistance(pointxyval[i][0], pointxyval[i][1], pointxyval[j][0], pointxyval[j][1]));
         }
     }
 
-    printf("Valor %f\n", EuclideanDistance(pointxyval[656][0], pointxyval[656][1], pointxyval[750][0], pointxyval[750][1]));
 
     graph.kruskalAlgorithm(classes_kruskal);
     j = 0;
@@ -81,7 +78,6 @@ int main()
         printf("Classes: %d\n", classes_kruskal[j]);
         j++;
     }
-    printf("Valor %f\n", EuclideanDistance(pointxyval[656][0], pointxyval[656][1], pointxyval[750][0], pointxyval[750][1]));
     return 0;
 }
 
