@@ -6,6 +6,7 @@
 #include <string.h>
 
 float EuclideanDistance(float x1, float y1, float x2, float y2);
+void show_results_classes(int *classes_kruskal, int *classes_prim, int numlines, int opt);
 
 int main()
 {
@@ -28,7 +29,6 @@ int main()
     int i=0;
     char *piece_data;
 
-
     data_file.open("./Files/dados.txt", ios::in);
 
     while(getline(data_file, readline) )
@@ -40,9 +40,9 @@ int main()
         pointxyval[i][1] = atof(piece_data);
         i++;
     }
+
     data_file.close();
     i=0;
-
     classes_file.open("./Files/classes.txt", ios::in);
 
     while(getline(classes_file, readline) )
@@ -51,37 +51,60 @@ int main()
         classes_prim[i] = classes_kruskal[i];
         i++;
     }
-    int j=0;
-
-    while(j < 788)
-    {
-        printf("Classes: %d\n", classes_kruskal[j]);
-        j++;
-    }
 
     int vertexnum = numlines, edgenum = (((numlines * numlines) - numlines)/2);
 
     Graph graph(vertexnum, edgenum);
+    Graph_Prim g(vertexnum);
 
+    show_results_classes(classes_kruskal, classes_prim, numlines, 0);
 
     for (i=0; i<numlines; i++){
         for (int j=i+1; j<numlines; j++){
             graph.addEdgeAndWeight(vertex[i], vertex[j], EuclideanDistance(pointxyval[i][0], pointxyval[i][1], pointxyval[j][0], pointxyval[j][1]));
+            g.put_edge(vertex[i], vertex[j], (1000*EuclideanDistance(pointxyval[i][0], pointxyval[i][1], pointxyval[j][0], pointxyval[j][1])));
         }
     }
-
-
     graph.kruskalAlgorithm(classes_kruskal);
-    j = 0;
-    while(j < 788)
-    {
-        printf("Classes: %d\n", classes_kruskal[j]);
-        j++;
-    }
+    g.calculates_Prim(classes_prim);
+
+    show_results_classes(classes_kruskal, classes_prim, numlines, 1);
     return 0;
 }
 
 float EuclideanDistance(float x1, float y1, float x2, float y2)
 {
     return sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
+}
+
+void show_results_classes(int *classes_kruskal, int *classes_prim, int numlines, int opt)
+{
+    int j=0;
+
+    std::cout << std::endl;
+
+    if (opt == 1){
+        std::cout <<"--------------- CLASS VALUE AFTER EXECUTING THE PRIM AND KRUSKAL ALGORITHM ---------------"<<std::endl;
+    }
+    if (opt == 0){
+        std::cout <<"--------------- CLASS VALUE BEFORE EXECUTING THE PRIM AND KRUSKAL ALGORITHM ---------------"<<std::endl;
+    }
+        std::cout << std::endl;
+
+        while(j < numlines)
+        {
+            std::cout <<"Class Value - Kruskal: "<< classes_kruskal[j] <<std::endl;
+            j++;
+        }
+        j=0;
+        std::cout << std::endl;
+        std::cout <<"-------------------------------"<<std::endl;
+        std::cout << std::endl;
+        while(j < numlines)
+        {
+            std::cout <<"Class Value - Prim: "<< classes_prim[j] <<std::endl;
+            j++;
+        }
+        std::cout << std::endl;
+
 }

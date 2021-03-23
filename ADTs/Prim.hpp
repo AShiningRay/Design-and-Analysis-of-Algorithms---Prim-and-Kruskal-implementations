@@ -1,146 +1,75 @@
-#include <vector>
-#include <queue>
-#include <cstdlib>
-#include <iostream>
+#include<bits/stdc++.h>
+#define Mem_end 0x3f3f3f3f
 
-#define INFINITO DBL_MAX
-#define VERDE 0
-#define AMARELO 1
-#define VERMELHO 2
-#define NULO -1
-#include <limits.h>
-#include <stdbool.h>
-#define V 10
+using namespace std;
 
-/*
-typedef pair<int, int> primintpair;
-typedef vector<primintpair> vecprimintpair;
-*/
-typedef double tpeso;
-typedef int tvertice;
-typedef int tapontador;
-int vet[5000];
+typedef pair<int, int> Pairs;
 
-typedef struct{
-int mat[100][100];
-int num_vertices;
-tvertice antecessor[100];
-} tgrafo;
-
-struct taresta{
-tpeso peso;
-tvertice orig, dest;
-
-bool operator <(const taresta &a) const {
-    return peso>a.peso;
-    }
-};
-
-class Prim
+class Graph_Prim
 {
-    /*
-    public:
-        std::priority_queue<primintpair, vector<primintpair>, greater<primintpair>> primorityqueue; // Here's our binary priority queue for the weights
+    int Vertex;
+    list< pair<int, int> > *adjacency;
 
-
-    Prim(int source_node, vector<primintpair> *nodegraph)
-    {
-        int minspantree_cost = 0;
-        primorityqueue.push(make_pair(0, source_node));
-        bool addednodes[nodegraph.size()];
-
-        memset(addednode, false, sizeof(bool) *nodegraph.size());
-
-    }
-    */
-
-    public:
-    void inserearesta(tvertice v, tvertice u, tpeso peso, tgrafo *grafo){
-        grafo->mat[v][u] = peso;
-    }
-    tapontador proximoadj(tvertice v, tapontador aux, tgrafo *grafo){
-
-        for (aux++; aux<grafo->num_vertices; aux++){
-            if (grafo->mat[v][aux] != 0)
-                return aux;
-            }
-        return (int) NULL;
-    }
-
-    tapontador primeiroadj(tvertice v, tgrafo *grafo){
-        tapontador aux;
-
-        for (aux = 0; aux < grafo->num_vertices; aux++){
-            if (grafo->mat[v][aux] != 0){
-            return aux;
-            }
-        }
-        return (int) NULL;
-    }
-
-    taresta cria_aresta(tpeso peso, tvertice orig, tvertice dest){
-        taresta aresta;
-        aresta.peso = peso;
-        aresta.orig = orig;
-        aresta.dest = dest;
-        return aresta;
-    }
-
-    void inicializagrafo(tgrafo *grafo, int num_vertices){
-        int i, j;
-        grafo->num_vertices = num_vertices;
-        for (i=0; i<grafo->num_vertices; i++){
-            for (j=0; j<grafo->num_vertices; j++){
-                grafo->mat[i][j] = (rand() % 9);
-            }
-        }
-    }
-
-    void recuperaadj(tvertice v, tapontador p, tvertice *u, tpeso *peso, tgrafo *grafo){
-        *u = p;
-        *peso = grafo->mat[v][p];
-    }
-
-    void prim(tvertice v, tgrafo *grafo, tgrafo *agm){
-        std::priority_queue<taresta> heap;
-        tpeso peso; tvertice u, w; tapontador p;
-        int i, marc[100];
-
-        inicializagrafo(agm, grafo->num_vertices);
-
-        for (i=0; i<grafo->num_vertices; i++){
-            marc[i] = VERDE;
-        }
-
-        marc[i] = VERMELHO;
-
-        p = primeiroadj(v, grafo);
-
-        while(p != NULO){
-            recuperaadj(v, v, &w, &peso, grafo);
-            heap.push(cria_aresta(peso, v, w));
-            p = proximoadj(v, p, grafo);
-            std::cout << "finished." << std::endl;
-        }
-
-        while(!heap.empty()){
-
-            v = heap.top().orig;
-            w = heap.top().dest;
-            peso = heap.top().peso;
-            heap.pop();
-
-            if (marc[w] == VERMELHO) continue;
-            inserearesta(v, w, peso, agm);
-            marc[w] = VERMELHO;
-            p = primeiroadj(w, grafo);
-
-            while(p != NULO){
-                recuperaadj(w, p, &u, &peso, grafo);
-                heap.push(cria_aresta(peso, w, u));
-                p = proximoadj(w, p, grafo);
-
-            }
-        }
-    }
+public:
+    Graph_Prim(int Vertex);
+    void put_edge(int vert1, int vert2, float weight);
+    void calculates_Prim(int *classes);
 };
+
+Graph_Prim::Graph_Prim(int Vertex)
+{
+    this->Vertex = Vertex;
+    adjacency = new list<Pairs> [Vertex];
+}
+
+void Graph_Prim::put_edge(int vert1, int vert2, float weight)
+{
+    adjacency[vert1].push_back(make_pair(vert2, weight));
+    adjacency[vert2].push_back(make_pair(vert1, weight));
+}
+
+void Graph_Prim::calculates_Prim(int *classes)
+{
+    priority_queue< Pairs, vector <Pairs> , greater<Pairs> > priority_q;
+
+    int origin = 0;
+
+    vector<int> vertex_key(Vertex, Mem_end);
+
+    vector<int> parent_vertex(Vertex, -1);
+
+    vector<bool> inMST(Vertex, false);
+
+    priority_q.push(make_pair(0, origin));
+    vertex_key[origin] = 0;
+
+    while (!priority_q.empty())
+    {
+        int vert1 = priority_q.top().second;
+        priority_q.pop();
+
+        inMST[vert1] = true;  // Include vertex in MST
+
+        list< pair<int, int> >::iterator cont;
+        for (cont = adjacency[vert1].begin(); cont != adjacency[vert1].end(); ++cont)
+        {
+            int vert2 = (*cont).first;
+            float weight = (*cont).second;
+
+            if (inMST[vert2] == false && vertex_key[vert2] > weight)
+            {
+                vertex_key[vert2] = weight;
+                priority_q.push(make_pair(vertex_key[vert2], vert2));
+                parent_vertex[vert2] = vert1;
+            }
+        }
+    }
+
+    for (int i = 1; i < Vertex; ++i){
+        if (classes[parent_vertex[i]] != classes[i]){
+            classes[parent_vertex[i]] = classes[i];
+        }
+        cout << parent_vertex[i] << " <-> " << i << endl;
+    }
+}
+
