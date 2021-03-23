@@ -54,7 +54,7 @@ int main()
 
     int vertexnum = numlines, edgenum = (((numlines * numlines) - numlines)/2);
 
-    Graph graph_kruskal(vertexnum, edgenum);
+    Graph_Kruskal graph_kruskal(vertexnum, edgenum);
     Graph_Prim graph_prim(vertexnum);
 
     show_results_classes(classes_kruskal, classes_prim, numlines, 0);

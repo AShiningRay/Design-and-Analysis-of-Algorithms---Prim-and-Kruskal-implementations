@@ -2,15 +2,15 @@
 #include <vector>
 #include <algorithm>
 
-typedef  std::pair<int, int> pairedInteger; //Defines a type to describe a pair of integers
+typedef  std::pair<int, int> integer_pair; //Defines a type to describe a pair of integers
 
-class Graph // Struct used to simulate (i.e. Visually demonstrate) a graph
+class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a graph
 {
     public:
     int vertexnum = 0, edgenum = 0;
-    std::vector< std::pair<float, pairedInteger> > edgevector{};
+    std::vector< std::pair<float, integer_pair> > edgevector{};
 
-    Graph(int vertexnum, int edgenum)
+    Graph_Kruskal(int vertexnum, int edgenum)
     {
         this->vertexnum = vertexnum;
         this->edgenum = edgenum;
@@ -65,7 +65,7 @@ struct DisjointSets // Struct to simulate the Disjoint Sets
     }
 };
 
-void Graph::kruskalAlgorithm(int *classes) // Executes the Algorithm of Kruskal
+void Graph_Kruskal::kruskalAlgorithm(int *classes) // Executes the Algorithm of Kruskal
 {
     int mst_weightval = 0;
 
@@ -74,7 +74,7 @@ void Graph::kruskalAlgorithm(int *classes) // Executes the Algorithm of Kruskal
 
     DisjointSets ds(vertexnum);
 
-    std::vector< std::pair<float, pairedInteger> >::iterator edge_iteration;
+    std::vector< std::pair<float, integer_pair> >::iterator edge_iteration;
 
     for (edge_iteration=edgevector.begin(); edge_iteration!=edgevector.end(); edge_iteration++) // Check edge by edge to findParent the MST
     {
@@ -92,7 +92,7 @@ void Graph::kruskalAlgorithm(int *classes) // Executes the Algorithm of Kruskal
             if (classes[vert1] != classes[vert2]){
                 classes[vert1] = classes[vert2];
             }
-            std::cout << vert1 << " <-> " << vert2 << " || " << edge_iteration->first << std::endl; // Used to print the edge currently in the MST
+            std::cout << "Kruskal verts: " << vert1 << " <-> " << vert2 << " || " << edge_iteration->first << std::endl; // Used to print the edge currently in the MST
 
             mst_weightval += edge_iteration->first; // Sum the weight of the path to the total weight of the MST
 

@@ -1,23 +1,23 @@
 #include<bits/stdc++.h>
 #define Mem_end 0x3f3f3f3f
 
-typedef std::pair<int, float> Pairs;
+typedef std::pair<int, float> vertweightpair;
 
 class Graph_Prim
 {
-    int Vertex;
+    int vertex;
     std::list< std::pair<int, float> > *adjacency;
 
 public:
-    Graph_Prim(int Vertex);
+    Graph_Prim(int vertex);
     void put_edge(int vert1, int vert2, float weight);
     void calculates_Prim(int *classes);
 };
 
-Graph_Prim::Graph_Prim(int Vertex)
+Graph_Prim::Graph_Prim(int vertex)
 {
-    this->Vertex = Vertex;
-    adjacency = new std::list<Pairs> [Vertex];
+    this->vertex = vertex;
+    adjacency = new std::list<vertweightpair> [vertex];
 }
 
 void Graph_Prim::put_edge(int vert1, int vert2, float weight)
@@ -28,18 +28,15 @@ void Graph_Prim::put_edge(int vert1, int vert2, float weight)
 
 void Graph_Prim::calculates_Prim(int *classes)
 {
-    std::priority_queue< Pairs, std::vector <Pairs> , std::greater<Pairs> > priority_q;
+    std::priority_queue< vertweightpair, std::vector <vertweightpair> , std::greater<vertweightpair> > priority_q;
+
+    std::vector<float> vertex_key(vertex, Mem_end);
+    std::vector<int> parent_vertex(vertex, -1);
+    std::vector<bool> inMST(vertex, false);
 
     int origin = 0;
-
-    std::vector<float> vertex_key(Vertex, Mem_end);
-
-    std::vector<int> parent_vertex(Vertex, -1);
-
-    std::vector<bool> inMST(Vertex, false);
-
-    priority_q.push(std::make_pair(0, origin));
     vertex_key[origin] = 0;
+    priority_q.push(std::make_pair(0, origin));
 
     while (!priority_q.empty())
     {
@@ -63,11 +60,11 @@ void Graph_Prim::calculates_Prim(int *classes)
         }
     }
 
-    for (int i = 1; i < Vertex; ++i){
+    for (int i = 1; i < vertex; ++i){
         if (classes[parent_vertex[i]] != classes[i])
             classes[parent_vertex[i]] = classes[i];
 
-        std::cout << "Prim:" << parent_vertex[i] << " <-> " << i << " || " << vertex_key[i] << std::endl;
+    std::cout << "Prim verts: " << parent_vertex[i] << " <-> " << i << " || " << vertex_key[i] << std::endl;
     }
 }
 
