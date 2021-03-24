@@ -5,7 +5,7 @@
 #include <string.h>
 
 float EuclideanDistance(float x1, float y1, float x2, float y2);
-void show_results_classes(int *classes_kruskal, int *classes_prim, int numlines, int opt);
+void showResultingClasses(int *classes_kruskal, int *classes_prim, int numlines, int opt);
 
 int main()
 {
@@ -51,12 +51,13 @@ int main()
         i++;
     }
 
+
     int vertexnum = numlines, edgenum = (((numlines * numlines) - numlines)/2);
 
     Graph_Kruskal graph_kruskal(vertexnum, edgenum);
     Graph_Prim graph_prim(vertexnum);
 
-    show_results_classes(classes_kruskal, classes_prim, numlines, 0);
+    showResultingClasses(classes_kruskal, classes_prim, numlines, 0);
 
     for (i=0; i<numlines; i++){
         for (int j=i+1; j<numlines; j++){
@@ -67,7 +68,7 @@ int main()
     graph_kruskal.kruskalAlgorithm(classes_kruskal);
     graph_prim.calculate_Prim(classes_prim);
 
-    show_results_classes(classes_kruskal, classes_prim, numlines, 1);
+    showResultingClasses(classes_kruskal, classes_prim, numlines, 1);
     return 0;
 }
 
@@ -76,7 +77,7 @@ float EuclideanDistance(float x1, float y1, float x2, float y2)
     return sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
 }
 
-void show_results_classes(int *classes_kruskal, int *classes_prim, int numlines, int opt)
+void showResultingClasses(int *classes_kruskal, int *classes_prim, int numlines, int opt)
 {
     int j=0;
     (opt == 1)  ? std::cout << "\n--------------- CLASS VALUE AFTER EXECUTING THE PRIM AND KRUSKAL ALGORITHM ---------------\n" << std::endl
