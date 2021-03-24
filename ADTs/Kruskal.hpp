@@ -1,45 +1,45 @@
 #include <vector>
 #include <algorithm>
 
-typedef  std::pair<int, int> integer_pair; //Defines a type to describe a pair of integers, simplifying some std::vectors
+typedef std::pair<int, int> integer_pair; //Defines a type to describe a pair of integers, simplifying some std::vectors
 
-class disjointSetUnion // Struct to simulate the Disjoint Set Union data structure.
+class disjointSetUnion // Class to simulate the Disjoint Set Union (aka. Union Find) data structure.
 {
     private:
-    int *parentval = nullptr, *setrank = nullptr;
-    int num = 0;
+    int *parentnode = nullptr, *setrank = nullptr; // Allocates a pointer for a vertex's rank, and location of its parent
+    int num = 0; // Amount of vertexes in the disjoint set data structure.
 
     public:
-    disjointSetUnion(int num)
+    disjointSetUnion(int num = 0) // Generates the Union sets.
     {
         this->num = num; // Allocates the pointers and variables
-        parentval = new int[num+1];
+        parentnode = new int[num+1];
         setrank = new int[num+1];
 
-        // "Sets" all vertices to different sets and assign 0 to them.
+        // Inserts all vertexes into different sets and assign their rank as 0.
         for (int i = 0; i <= num; i++)
         {
             setrank[i] = 0;
-            parentval[i] = i; //Makes it so that every single element is his own parentval(unique and only set)
+            parentnode[i] = i; //Makes it so that every single element is his own parentnode(basically a unique and only set)
         }
     }
 
-    // Find the parent value of a given node
-    int findParent(int u)
-    {
-        if (u != parentval[u])
-            parentval[u] = findParent(parentval[u]);
-        return parentval[u];
+    int findParent(int node)
+    { // Find the parent of a given node
+        if (node != parentnode[node])
+            parentnode[node] = findParent(parentnode[node]);
+
+        return parentnode[node];
     }
 
     void uniteByRank(int val1, int val2) // Union of sets by rank
     {
         val1 = findParent(val1), val2 = findParent(val2);
 
-        if (setrank[val1] > setrank[val2]) // If the first tree has a smaller height than the second one, make it a subtree of the taller
-            parentval[val2] = val1;
-        else // If the second tree has a smaller height than the first one, make it a subtree of the taller
-            parentval[val1] = val2;
+        if (setrank[val1] > setrank[val2]) // If the first tree has a smaller height than the second one, make it a subtree of the taller one.
+            parentnode[val2] = val1;
+        else // If the second tree has a smaller height than the first one, make it a subtree of the taller one.
+            parentnode[val1] = val2;
 
         if (setrank[val1] == setrank[val2])
             setrank[val2]++;
@@ -53,7 +53,7 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
     std::vector< std::pair<float, integer_pair> > edgesvector{};
 
     public:
-    Graph_Kruskal(int vertexnum, int edgenum)
+    Graph_Kruskal(int vertexnum, int edgenum) // Creates the Kruskal's Graph, passing the number of edges and vertexes.
     {
         this->vertexnum = vertexnum;
         this->edgenum = edgenum;
@@ -64,18 +64,18 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
         edgesvector.push_back({weight, {vert1, vert2}}); // Adds an edge between vertexes
     }
 
-    void kruskalAlgorithm(int *classes) // Executes the Algorithm of Kruskal
+    void kruskalAlgorithm(int *classes) // Calculates the Minimum Spanning Tree using Kruskal's algorithm
     {
-        int mst_weightval = 0;
+        int mst_weightval = 0; // Defines the initial total weight of the MST.
 
-        // Sort the stack of edges ordered by cost
-        sort(edgesvector.begin(), edgesvector.end());
 
-        disjointSetUnion dsu(vertexnum);
+        sort(edgesvector.begin(), edgesvector.end()); // Sort the stack of edges ordered by cost
 
-        std::vector< std::pair<float, integer_pair> >::iterator edge_iteration;
+        disjointSetUnion dsu(vertexnum); // Creates a Disjoint Set Union with the total amount of vertexes
 
-        for (edge_iteration = edgesvector.begin(); edge_iteration != edgesvector.end(); edge_iteration++) // Check edge by edge to findParent the MST
+        std::vector< std::pair<float, integer_pair> >::iterator edge_iteration; // Allocates a vector of edges between vertexes to be used as as a iterator below
+
+        for (edge_iteration = edgesvector.begin(); edge_iteration != edgesvector.end(); edge_iteration++) // Check edge by edge to find its parent in the MST
         {
             int vert1 = edge_iteration->second.first;
             int vert2 = edge_iteration->second.second;
@@ -83,18 +83,18 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
             int vert1_parent = dsu.findParent(vert1);
             int vert2_parent = dsu.findParent(vert2);
 
-            if (vert1_parent != vert2_parent) // Checks if the selected edge creates a Cycle
+            if (vert1_parent != vert2_parent) // Checks if the selected edge creates a Cycle between the vertex parents.
             {
 
-                if (classes[vert1] != classes[vert2]){
+                if (classes[vert1] != classes[vert2]) // If both vertexes are not within the same class, unite them.
                     classes[vert1] = classes[vert2];
-                }
+
                 std::cout << "Kruskal verts: " << vert1 << " <-> " << vert2 << " || " << edge_iteration->first << std::endl; // Used to print the edge currently in the MST
 
                 mst_weightval += edge_iteration->first; // Sum the weight of the path to the total weight of the MST
 
-                dsu.uniteByRank(vert1_parent, vert2_parent);
+                dsu.uniteByRank(vert1_parent, vert2_parent); //Unite both vertexes linked by the edge in the data structure's tree.
             }
         }
-    } // Finds the Minimum Spanning Tree using Kruskal's algorithm
+    }
 };

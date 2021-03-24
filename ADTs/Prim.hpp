@@ -3,7 +3,7 @@
 #include <queue>
 #include <vector>
 
-typedef std::pair<int, float> vertweightpair;
+typedef std::pair<int, float> vertweightpair; //Defines a type to describe a pair made of a integer and a float, simplifying some std::vectors
 
 class Graph_Prim
 {
@@ -24,24 +24,24 @@ class Graph_Prim
             adjacency[vert2].push_back(std::make_pair(vert1, weight));
         }
 
-        void calculate_Prim(int *classes)
+        void calculate_Prim(int *classes) // Where Prim's Minimum Spanning Tree is calculated.
         {
             std::priority_queue < vertweightpair, std::vector <vertweightpair> , std::greater <vertweightpair> > priority_q;
 
             std::vector<float> vertex_key(vertex, ULONG_MAX); // Allocates a vector populated with the biggest value possible for a vertex's key
             std::vector<int> parent_vertex(vertex, -1);
-            std::vector<bool> inMST(vertex, false);
+            std::vector<bool> inMST(vertex, false); // Allocates a vector of boolean values to check if a given vertex is in the Minimum Spanning Tree.
 
             int origin = 0;
             vertex_key[origin] = 0;
-            priority_q.push(std::make_pair(0, origin));
+            priority_q.push( std::make_pair(0, origin) );
 
             while (!priority_q.empty())
             {
                 int vert1 = priority_q.top().second;
-                priority_q.pop();
+                priority_q.pop(); // Removes the current node from the priority queue.
 
-                inMST[vert1] = true;  // Include vertex in Minimum Spanning Tree
+                inMST[vert1] = true;  // Include the vertex in the MST
 
                 std::list < vertweightpair >::iterator cont;
 
