@@ -7,17 +7,17 @@ class disjointSetUnion // Class to simulate the Disjoint Set Union (aka. Union F
 {
     private:
     int *parentnode = nullptr, *setrank = nullptr; // Allocates a pointer for a vertex's rank, and location of its parent
-    int num = 0; // Amount of vertexes in the disjoint set data structure.
+    int numverts = 0; // Amount of vertexes in the disjoint set data structure.
 
     public:
-    disjointSetUnion(int num = 0) // Generates the Union sets.
+    disjointSetUnion(int numverts = 0) // Generates the Union sets.
     {
-        this->num = num; // Allocates the pointers and variables
-        parentnode = new int[num+1];
-        setrank = new int[num+1];
+        this->numverts = numverts; // Allocates the pointers and variables
+        parentnode = new int[numverts+1];
+        setrank = new int[numverts+1];
 
         // Inserts all vertexes into different sets and assign their rank as 0.
-        for (int i = 0; i <= num; i++)
+        for (int i = 0; i <= numverts; i++)
         {
             setrank[i] = 0;
             parentnode[i] = i; //Makes it so that every single element is his own parentnode(basically a unique and only set)
