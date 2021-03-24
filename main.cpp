@@ -1,7 +1,6 @@
 #include "ADTs/Prim.hpp"
 #include "ADTs/Kruskal.hpp"
 #include <cmath>
-#include <iostream>
 #include <fstream>
 #include <string.h>
 
@@ -66,7 +65,7 @@ int main()
         }
     }
     graph_kruskal.kruskalAlgorithm(classes_kruskal);
-    graph_prim.calculates_Prim(classes_prim);
+    graph_prim.calculate_Prim(classes_prim);
 
     show_results_classes(classes_kruskal, classes_prim, numlines, 1);
     return 0;
