@@ -2,6 +2,7 @@
 #include <list>
 #include <queue>
 #include <vector>
+#include <limits.h>
 
 typedef std::pair<int, float> vertweightpair; //Defines a type to describe a pair made of a integer and a float, simplifying some std::vectors
 
@@ -24,7 +25,7 @@ class Graph_Prim
             adjacency[vert2].push_back(std::make_pair(vert1, weight));
         }
 
-        void calculate_Prim(int *classes) // Where Prim's Minimum Spanning Tree is calculated.
+        void calculate_Prim() // Where Prim's Minimum Spanning Tree is calculated.
         {
             std::priority_queue < vertweightpair, std::vector <vertweightpair> , std::greater <vertweightpair> > priority_q;
 
