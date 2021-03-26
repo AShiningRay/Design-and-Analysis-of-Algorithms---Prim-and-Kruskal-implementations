@@ -23,7 +23,6 @@ int main()
     data_file.close();
 
     float pointxyval[numlines][2]; //[x][y]
-    int classes_kruskal[numlines];
     int vertex[numlines];
     int i=0;
     char *piece_data;
@@ -41,22 +40,11 @@ int main()
     }
 
     data_file.close();
-    i=0;
-    classes_file.open("./Files/classes.txt", std::ios::in);
-
-    while(getline(classes_file, readline) )
-    {
-        classes_kruskal[i] = atoi(&readline[0]);
-        i++;
-    }
-
 
     int vertexnum = numlines, edgenum = (((numlines * numlines) - numlines)/2);
 
     Graph_Kruskal graph_kruskal(vertexnum, edgenum);
     Graph_Prim graph_prim(vertexnum);
-
-    showResultingClasses(classes_kruskal, numlines, 0);
 
     for (i=0; i<numlines; i++){
         for (int j=i+1; j<numlines; j++){
@@ -66,13 +54,12 @@ int main()
     }
 
     std::cout << "\n--------------- KRUSKAL MST ---------------\n" << std::endl;
-    graph_kruskal.kruskalAlgorithm(classes_kruskal);
+    graph_kruskal.kruskalAlgorithm();
     std::cout << std::endl;
     std::cout << "\n--------------- PRIM MST ---------------\n" << std::endl;
     graph_prim.calculate_Prim();
     std::cout << std::endl;
 
-    showResultingClasses(classes_kruskal, numlines, 1);
     return 0;
 }
 
@@ -81,15 +68,3 @@ float EuclideanDistance(float x1, float y1, float x2, float y2)
     return sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
 }
 
-void showResultingClasses(int *classes_kruskal, int numlines, int opt)
-{
-    int j=0;
-    (opt == 1)  ? std::cout << "\n--------------- CLASS VALUE AFTER EXECUTING THE KRUSKAL ALGORITHM ---------------\n" << std::endl
-                : std::cout << "\n--------------- CLASS VALUE BEFORE EXECUTING THE KRUSKAL ALGORITHM ---------------\n" << std::endl;
-
-        while(j < numlines)
-        {
-            std::cout <<"Class Value - Kruskal: "<< classes_kruskal[j] <<std::endl;
-            j++;
-        }
-}
