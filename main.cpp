@@ -26,11 +26,13 @@ int main()
     int vertex[numlines];
     int i=0;
     char *piece_data;
+    int classes[numlines];
 
     data_file.open("./Files/dados.txt", std::ios::in);
 
     while(getline(data_file, readline) )
     {
+        classes[i] = i;
         vertex[i] = i;
         piece_data = strtok(&readline[0], "	");
         pointxyval[i][0] = atof(piece_data);
@@ -38,6 +40,10 @@ int main()
         pointxyval[i][1] = atof(piece_data);
         i++;
     }
+    int k;
+
+    std::cout << "Please type the k value: " << std::endl;
+    std::cin >> k;
 
     data_file.close();
 
@@ -54,7 +60,7 @@ int main()
     }
 
     std::cout << "\n--------------- KRUSKAL MST ---------------\n" << std::endl;
-    graph_kruskal.kruskalAlgorithm();
+    graph_kruskal.kruskalAlgorithm(classes, k);
     std::cout << std::endl;
     std::cout << "\n--------------- PRIM MST ---------------\n" << std::endl;
     graph_prim.calculate_Prim();

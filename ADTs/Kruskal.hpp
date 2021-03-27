@@ -64,7 +64,7 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
         edgesvector.push_back({weight, {vert1, vert2}}); // Adds an edge between vertexes
     }
 
-    void kruskalAlgorithm() // Calculates the Minimum Spanning Tree using Kruskal's algorithm
+    void kruskalAlgorithm(int *classes, int k) // Calculates the Minimum Spanning Tree using Kruskal's algorithm
     {
         int mst_weightval = 0; // Defines the initial total weight of the MST.
 
@@ -85,12 +85,23 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
 
             if (vert1_parent != vert2_parent) // Checks if the selected edge creates a Cycle between the vertex parents.
             {
+
+                union_vertex(vert1, vert2, classes, k);
+
                 std::cout << "Kruskal verts: " << vert1 << " <-> " << vert2 << " || " << edge_iteration->first << std::endl; // Used to print the edge currently in the MST
 
                 mst_weightval += edge_iteration->first; // Sum the weight of the path to the total weight of the MST
 
                 dsu.uniteByRank(vert1_parent, vert2_parent); //Unite both vertexes linked by the edge in the data structure's tree.
             }
+        }
+    }
+
+    void union_vertex(int vert1, int vert2, int *classes, int k)
+    {
+        if (classes[vert1] != classes[vert2])
+        {
+
         }
     }
 };
