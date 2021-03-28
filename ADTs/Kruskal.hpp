@@ -75,7 +75,7 @@ class disjointSetUnion // Class to simulate the Disjoint Set Union (aka. Union F
 		return cont;
 	}
 
-    void printGroups(){ //Print the groups values on the screen.
+    void printGroups(int *classes){ //Print the groups values on the screen.
 	    bool repeated = false;
 	    int i = 0, arr[788];
 
@@ -84,6 +84,7 @@ class disjointSetUnion // Class to simulate the Disjoint Set Union (aka. Union F
 
 	    while(i < 788)
         {
+            classes[i] = parentnode[i];
 	        for (int j = 0; j < i; j++)
                 if(arr[j] == parentnode[i])
                     repeated = true;
@@ -152,7 +153,7 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
             }
 
         }
-        dsu.printGroups();
+        dsu.printGroups(classes);
     }
 
 };

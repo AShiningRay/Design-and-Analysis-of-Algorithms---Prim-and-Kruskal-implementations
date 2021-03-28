@@ -6,6 +6,7 @@
 
 float EuclideanDistance(float x1, float y1, float x2, float y2);
 int getNumberSets(int *classes);
+void write_results_file(int *classes);
 
 int main()
 {
@@ -65,12 +66,30 @@ int main()
     std::cout << "\n--------------- PRIM MST ---------------\n" << std::endl;
     //graph_prim.calculate_Prim();
     std::cout << std::endl;
+
+    write_results_file(classes);
+
     return 0;
 }
 
 float EuclideanDistance(float x1, float y1, float x2, float y2)
 {
     return sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
+}
+
+void write_results_file(int *classes)
+{
+  std::ofstream myfile ("./Files/results.txt");
+  if (myfile.is_open())
+  {
+    for (int i=0; i<788; i++){
+    myfile << classes[i];
+    if (i < 787)
+        myfile << "\n";
+    }
+    myfile.close();
+  }
+  else std::cout << "Unable to open file";
 }
 
 
