@@ -5,7 +5,7 @@
 #include <string.h>
 
 float EuclideanDistance(float x1, float y1, float x2, float y2);
-void showResultingClasses(int *classes_kruskal, int numlines, int opt);
+int getNumberSets(int *classes);
 
 int main()
 {
@@ -65,7 +65,6 @@ int main()
     std::cout << "\n--------------- PRIM MST ---------------\n" << std::endl;
     graph_prim.calculate_Prim();
     std::cout << std::endl;
-
     return 0;
 }
 
@@ -73,4 +72,5 @@ float EuclideanDistance(float x1, float y1, float x2, float y2)
 {
     return sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
 }
+
 
