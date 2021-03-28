@@ -5,7 +5,7 @@ typedef std::pair<int, int> integer_pair; //Defines a type to describe a pair of
 
 class disjointSetUnion // Class to simulate the Disjoint Set Union (aka. Union Find) data structure.
 {
-    public:
+    private:
     int *parentnode = nullptr, *setrank = nullptr; // Allocates a pointer for a vertex's rank, and location of its parent
     int numverts = 0; // Amount of vertexes in the disjoint set data structure.
 
@@ -36,32 +36,69 @@ class disjointSetUnion // Class to simulate the Disjoint Set Union (aka. Union F
     {
         val1 = findParent(val1), val2 = findParent(val2);
 
-        if (setrank[val1] > setrank[val2]){ // If the first tree has a smaller height than the second one, make it a subtree of the taller one.
+        if (setrank[val1] > setrank[val2]) // If the first tree has a smaller height than the second one, make it a subtree of the taller one.
             parentnode[val2] = val1;
-        }
-        else{ // If the second tree has a smaller height than the first one, make it a subtree of the taller one.
+
+        else // If the second tree has a smaller height than the first one, make it a subtree of the taller one.
             parentnode[val1] = val2;
-        }
+
 
         if (setrank[val1] == setrank[val2])
             setrank[val2]++;
     }
 
-    int getNumberGroups(){ //Return the number of groups created.
-		int cont = 0;
-		for(int i=0; i < 788; i++){
-			if(i == parentnode[i])
-				cont += 1;
-		}
+    int getAmountOfClusters(){ //Return the number of groups created.
+		int cont = 0, i = 0, arr[788];
+		bool repeated = false;
+
+		for (int i = 0; i < 788; i ++)
+            arr[i] = -1;
+
+		while(i < 788)
+        {
+	        for (int j = 0; j < i; j++)
+                if(arr[j] == parentnode[i])
+                    repeated = true;
+
+            if(repeated == false) arr[i] = parentnode[i];
+
+            i++;
+            repeated = false;
+	    }
+
+	    for(i=0; i < 788; i ++)
+        {
+            if(arr[i] != -1)
+                cont++;
+        }
+
 		return cont;
 	}
 
     void printGroups(){ //Print the groups values on the screen.
-	    int i=0;
-	    while(i < 788){
-            printf("Classes: %d\n", parentnode[i]);
+	    bool repeated = false;
+	    int i = 0, arr[788];
+
+	    for (int i = 0; i < 788; i ++)
+            arr[i] = -1;
+
+	    while(i < 788)
+        {
+	        for (int j = 0; j < i; j++)
+                if(arr[j] == parentnode[i])
+                    repeated = true;
+
+            if(repeated == false) arr[i] = parentnode[i];
+
             i++;
+            repeated = false;
 	    }
+
+	    for(i=0; i < 788; i ++)
+        {
+            if(arr[i] != -1)
+                std::cout << "Class: " << arr[i] << std::endl;
+        }
 	}
 };
 
@@ -87,7 +124,6 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
     {
         int mst_weightval = 0; // Defines the initial total weight of the MST.
 
-
         sort(edgesvector.begin(), edgesvector.end()); // Sort the stack of edges ordered by cost
 
         disjointSetUnion dsu(vertexnum); // Creates a Disjoint Set Union with the total amount of vertexes
@@ -96,9 +132,8 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
 
         for (edge_iteration = edgesvector.begin(); edge_iteration != edgesvector.end(); edge_iteration++) // Check edge by edge to find its parent in the MST
         {
-            if(k == dsu.getNumberGroups()){
-				break;
-            }
+            if(k == dsu.getAmountOfClusters())
+                break;
 
             int vert1 = edge_iteration->second.first;
             int vert2 = edge_iteration->second.second;
@@ -109,12 +144,13 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
             if (vert1_parent != vert2_parent) // Checks if the selected edge creates a Cycle between the vertex parents.
             {
 
-                std::cout << "Kruskal verts: " << vert1 << " <-> " << vert2 << " || " << edge_iteration->first << std::endl; // Used to print the edge currently in the MST
+                //std::cout << "Kruskal verts: " << vert1 << " <-> " << vert2 << " || " << edge_iteration->first << std::endl; // Used to print the edge currently in the MST
 
                 mst_weightval += edge_iteration->first; // Sum the weight of the path to the total weight of the MST
 
                 dsu.unionByRank(vert1_parent, vert2_parent); //Unite both vertexes linked by the edge in the data structure's tree.
             }
+
         }
         dsu.printGroups();
     }

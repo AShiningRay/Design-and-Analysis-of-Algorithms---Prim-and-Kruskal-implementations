@@ -63,7 +63,7 @@ int main()
     graph_kruskal.kruskalAlgorithm(classes, k);
     std::cout << std::endl;
     std::cout << "\n--------------- PRIM MST ---------------\n" << std::endl;
-    graph_prim.calculate_Prim();
+    //graph_prim.calculate_Prim();
     std::cout << std::endl;
     return 0;
 }
