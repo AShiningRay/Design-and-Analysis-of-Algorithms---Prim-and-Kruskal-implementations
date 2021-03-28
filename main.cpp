@@ -79,15 +79,15 @@ float EuclideanDistance(float x1, float y1, float x2, float y2)
 
 void write_results_file(int *classes)
 {
-  std::ofstream myfile ("./Files/results.txt");
-  if (myfile.is_open())
+  std::ofstream file ("./Results/results.txt");
+  if (file.is_open())
   {
     for (int i=0; i<788; i++){
-    myfile << classes[i];
+    file << classes[i];
     if (i < 787)
-        myfile << "\n";
+        file << "\n";
     }
-    myfile.close();
+    file.close();
   }
   else std::cout << "Unable to open file";
 }
