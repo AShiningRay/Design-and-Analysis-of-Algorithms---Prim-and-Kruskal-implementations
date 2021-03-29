@@ -1,5 +1,6 @@
 #include <vector>
 #include <algorithm>
+#include <fstream>
 
 typedef std::pair<int, int> integer_pair; //Defines a type to describe a pair of integers, simplifying some std::vectors
 
@@ -101,6 +102,23 @@ class disjointSetUnion // Class to simulate the Disjoint Set Union (aka. Union F
                 std::cout << "Class: " << arr[i] << std::endl;
         }
 	}
+
+    //Function to save the results in a txt file.
+	void write_results_file()
+    {
+        std::ofstream file ("./Results/results_kruskal.txt");
+
+        if (file.is_open())
+        {
+            for (int i=0; i<788; i++){
+            file << parentnode[i];
+            if (i < 787)
+                file << "\n";
+            }
+            file.close();
+        }
+        else std::cout << "Unable to open file";
+        }
 };
 
 class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a graph
@@ -145,7 +163,7 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
             if (vert1_parent != vert2_parent) // Checks if the selected edge creates a Cycle between the vertex parents.
             {
 
-                //std::cout << "Kruskal verts: " << vert1 << " <-> " << vert2 << " || " << edge_iteration->first << std::endl; // Used to print the edge currently in the MST
+                std::cout << "Kruskal verts: " << vert1 << " <-> " << vert2 << " || " << edge_iteration->first << std::endl; // Used to print the edge currently in the MST
 
                 mst_weightval += edge_iteration->first; // Sum the weight of the path to the total weight of the MST
 
@@ -153,5 +171,6 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
             }
         }
         dsu.printGroups(classes);
+        dsu.write_results_file();
     }
 };

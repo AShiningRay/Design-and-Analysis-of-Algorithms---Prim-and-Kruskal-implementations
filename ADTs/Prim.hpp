@@ -3,6 +3,7 @@
 #include <queue>
 #include <vector>
 #include <limits.h>
+#include <fstream>
 
 typedef std::pair<int, float> vertweightpair; //Defines a type to describe a pair made of a integer and a float, simplifying some std::vectors
 
@@ -55,7 +56,7 @@ class Graph_Prim
                     if (inMST[vert2] == false && vertex_key[vert2] > weight)
                     {
                         vertex_key[vert2] = weight; // Sets the edge weight as the second vertex's key
-                        priority_q.push(std::make_pair(vertex_key[vert2], vert2)); // Pushes the pair (key, vertex) to the priority queue.
+                        priority_q.push(std::make_pair(vertex_key[vert2], vert2)); // Pushes the pair (weight, vertex) to the priority queue.
                         parent_vertex[vert2] = vert1; // Makes vert1 the parent of vert2.
                     }
                 }
@@ -76,5 +77,23 @@ class Graph_Prim
                 i++;
             }
 
+            write_results_file(classes);
+        }
+
+        //Function to save the results in a txt file.
+        void write_results_file(int *classes)
+        {
+            std::ofstream file ("./Results/results_prim.txt");
+
+            if (file.is_open())
+            {
+                for (int i=0; i<788; i++){
+                file << classes[i];
+                if (i < 787)
+                    file << "\n";
+                }
+                file.close();
+            }
+            else std::cout << "Unable to open file";
         }
 };
