@@ -50,7 +50,7 @@ class disjointSetUnion // Class to simulate the Disjoint Set Union (aka. Union F
 
     int getAmountOfClusters()
     { //Return the number of groups created.
-		int cont = 0, i = 0, arr[788], it = 0;
+		int cont = 0, i = 0, arr[788];
 		bool repeated = false;
 
 		for (int i = 0; i < 788; i ++) // Complexity: O(n)
@@ -60,11 +60,7 @@ class disjointSetUnion // Class to simulate the Disjoint Set Union (aka. Union F
         { // O( (N² - N)/2)
 	        for (int j = 0; j < i; j++)
                 if(arr[j] == parentnode[i])
-                {
                     repeated = true;
-                    it++;
-                }
-
 
             if(repeated == false) arr[i] = parentnode[i]; // O(1)
 
@@ -77,7 +73,6 @@ class disjointSetUnion // Class to simulate the Disjoint Set Union (aka. Union F
             if(arr[i] != -1)
                 cont++;
         }
-        std::cout << "AMOUNT OF EXECUTIONS:" << it << std::endl;
 
 		return cont;
 	}
