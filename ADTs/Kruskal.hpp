@@ -82,11 +82,11 @@ class disjointSetUnion // Class to simulate the Disjoint Set Union (aka. Union F
 	    bool repeated = false;
 	    int i = 0, arr[788];
 
-	    for (int i = 0; i < 788; i ++)
+	    for (int i = 0; i < 788; i ++) // O(n)
             arr[i] = -1;
 
 	    while(i < 788)
-        {
+        { // O( (N² - N)/2)
             classes[i] = parentnode[i];
 	        for (int j = 0; j < i; j++)
                 if(arr[j] == parentnode[i])
@@ -111,7 +111,7 @@ class disjointSetUnion // Class to simulate the Disjoint Set Union (aka. Union F
         std::ofstream file ("./Results/results_kruskal.txt");
 
         if (file.is_open())
-        {
+        { // O(n)
             for (int i=0; i<788; i++){
             file << parentnode[i];
             if (i < 787)
@@ -171,7 +171,7 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
                 dsu.unionByRank(vert1_parent, vert2_parent); //Unite both vertexes linked by the edge in the data structure's tree.
             }
         }
-        dsu.printGroups(classes); // Optional, hence, its complexity was not calculated
-        dsu.write_results_file(); // Optional, hence, its complexity was not calculated
+        //dsu.printGroups(classes); // Optional, hence, its complexity was not calculated, but if needed, the complexity is the same as the getAmountOfClusters
+        dsu.write_results_file(); // O(n)
     }
 };

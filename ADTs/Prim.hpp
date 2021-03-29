@@ -155,7 +155,7 @@ class Graph_Prim
 
 
 
-            write_results_file(classes);
+            write_results_file(classes); // O(n)
         }
 
         //Function to save the results in a txt file.
