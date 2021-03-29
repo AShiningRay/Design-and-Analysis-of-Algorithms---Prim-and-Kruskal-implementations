@@ -65,9 +65,11 @@ int main()
     Graph_Kruskal graph_kruskal(vertexnum, edgenum);
     Graph_Prim graph_prim(vertexnum);
 
-    //This function will put the vertices and the edges in the graphs with a complexity O((N^2 - N)/2).
-    for (i=0; i<numlines; i++){
-        for (int j=i+1; j<numlines; j++){
+    //This function will put the vertices and the edges in the graphs with a complexity O( (N² - N)/2).
+    for (i=0; i<numlines; i++)
+    {
+        for (int j=i+1; j<numlines; j++)
+        {
             graph_kruskal.addEdgeAndWeight(vertex[i], vertex[j], EuclideanDistance(pointxyval[i][0], pointxyval[i][1], pointxyval[j][0], pointxyval[j][1]));
             graph_prim.put_edge(vertex[i], vertex[j], (EuclideanDistance(pointxyval[i][0], pointxyval[i][1], pointxyval[j][0], pointxyval[j][1])));
         }

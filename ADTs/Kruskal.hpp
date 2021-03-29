@@ -27,7 +27,7 @@ class disjointSetUnion // Class to simulate the Disjoint Set Union (aka. Union F
 
     int findParent(int node)
     { // Find the parent of a given node
-        if (node != parentnode[node])
+        if (node != parentnode[node]) //O(1)
             parentnode[node] = findParent(parentnode[node]);
 
         return parentnode[node];
@@ -48,35 +48,42 @@ class disjointSetUnion // Class to simulate the Disjoint Set Union (aka. Union F
             setrank[val2]++;
     }
 
-    int getAmountOfClusters(){ //Return the number of groups created.
-		int cont = 0, i = 0, arr[788];
+    int getAmountOfClusters()
+    { //Return the number of groups created.
+		int cont = 0, i = 0, arr[788], it = 0;
 		bool repeated = false;
 
-		for (int i = 0; i < 788; i ++)
+		for (int i = 0; i < 788; i ++) // Complexity: O(n)
             arr[i] = -1;
 
 		while(i < 788)
-        {
+        { // O( (N² - N)/2)
 	        for (int j = 0; j < i; j++)
                 if(arr[j] == parentnode[i])
+                {
                     repeated = true;
+                    it++;
+                }
 
-            if(repeated == false) arr[i] = parentnode[i];
 
-            i++;
-            repeated = false;
+            if(repeated == false) arr[i] = parentnode[i]; // O(1)
+
+            i++; // O(1)
+            repeated = false; // O(1)
 	    }
 
 	    for(i=0; i < 788; i ++)
-        {
+        { //O(n)
             if(arr[i] != -1)
                 cont++;
         }
+        std::cout << "AMOUNT OF EXECUTIONS:" << it << std::endl;
 
 		return cont;
 	}
 
-    void printGroups(int *classes){ //Print the groups values on the screen.
+    void printGroups(int *classes)
+    { //Print the groups values on the screen.
 	    bool repeated = false;
 	    int i = 0, arr[788];
 
@@ -150,8 +157,8 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
         std::vector< std::pair<float, integer_pair> >::iterator edge_iteration; // Allocates a vector of edges between vertexes to be used as as a iterator below
 
         for (edge_iteration = edgesvector.begin(); edge_iteration != edgesvector.end(); edge_iteration++) // Check edge by edge to find its parent in the MST
-        {
-            if(k == dsu.getAmountOfClusters())
+        { // Runs through all edges, which means that it also has the upper bound complexity of O((N² - N)/2) * O((N² - N)/2).
+            if(k == dsu.getAmountOfClusters()) // O( (N² - N)/2)
                 break;
 
             int vert1 = edge_iteration->second.first;
@@ -162,7 +169,6 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
 
             if (vert1_parent != vert2_parent) // Checks if the selected edge creates a Cycle between the vertex parents.
             {
-
                 std::cout << "Kruskal verts: " << vert1 << " <-> " << vert2 << " || " << edge_iteration->first << std::endl; // Used to print the edge currently in the MST
 
                 mst_weightval += edge_iteration->first; // Sum the weight of the path to the total weight of the MST
