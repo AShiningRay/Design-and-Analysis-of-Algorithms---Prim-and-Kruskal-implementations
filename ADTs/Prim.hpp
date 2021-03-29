@@ -25,8 +25,9 @@ class Graph_Prim
             adjacency[vert2].push_back(std::make_pair(vert1, weight));
         }
 
-        void calculate_Prim() // Where Prim's Minimum Spanning Tree is calculated.
+        void calculate_Prim(int k, int *classes) // Where Prim's Minimum Spanning Tree is calculated.
         {
+
             std::priority_queue < vertweightpair, std::vector <vertweightpair> , std::greater <vertweightpair> > priority_q;
 
             std::vector<float> vertex_key(vertex, ULONG_MAX); // Allocates a vector populated with the biggest value possible for a vertex's number
@@ -62,5 +63,18 @@ class Graph_Prim
 
             for (int i = 1; i < vertex; ++i)
                 std::cout << "Prim verts: " << parent_vertex[i] << " <-> " << i << " || " << vertex_key[i] << std::endl;
+
+            int i =1;
+            int t = 0;
+            while(i < 788) //Function to unite vertices. PS: A binary heap has been not implemented yet to collect the k highest values.
+            {
+                if (vertex_key[i] >= 1.27){
+                    classes[i-1] = t;
+                    t++;
+                }
+                classes[i] = t;
+                i++;
+            }
+
         }
 };

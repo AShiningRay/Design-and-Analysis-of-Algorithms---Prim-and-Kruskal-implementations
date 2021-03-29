@@ -130,7 +130,7 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
         disjointSetUnion dsu(vertexnum); // Creates a Disjoint Set Union with the total amount of vertexes
 
         std::vector< std::pair<float, integer_pair> >::iterator edge_iteration; // Allocates a vector of edges between vertexes to be used as as a iterator below
-
+        float t =0;
         for (edge_iteration = edgesvector.begin(); edge_iteration != edgesvector.end(); edge_iteration++) // Check edge by edge to find its parent in the MST
         {
             if(k == dsu.getAmountOfClusters())
@@ -147,11 +147,13 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
 
                 //std::cout << "Kruskal verts: " << vert1 << " <-> " << vert2 << " || " << edge_iteration->first << std::endl; // Used to print the edge currently in the MST
 
+                if (edge_iteration->first > t)
+                    t = edge_iteration->first;
+
                 mst_weightval += edge_iteration->first; // Sum the weight of the path to the total weight of the MST
 
                 dsu.unionByRank(vert1_parent, vert2_parent); //Unite both vertexes linked by the edge in the data structure's tree.
             }
-
         }
         dsu.printGroups(classes);
     }

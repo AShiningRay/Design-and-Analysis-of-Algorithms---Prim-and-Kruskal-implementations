@@ -61,13 +61,20 @@ int main()
     }
 
     std::cout << "\n--------------- KRUSKAL MST ---------------\n" << std::endl;
-    graph_kruskal.kruskalAlgorithm(classes, k);
+    //graph_kruskal.kruskalAlgorithm(classes, k);
     std::cout << std::endl;
     std::cout << "\n--------------- PRIM MST ---------------\n" << std::endl;
-    //graph_prim.calculate_Prim();
+    graph_prim.calculate_Prim(k, classes);
     std::cout << std::endl;
 
-    write_results_file(classes);
+    i=0;
+    while(i < 788)
+    {
+        printf("Classes: %d\n", classes[i]);
+        i++;
+    }
+
+    //write_results_file(classes);
 
     return 0;
 }
