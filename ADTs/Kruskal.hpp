@@ -171,7 +171,7 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
                 dsu.unionByRank(vert1_parent, vert2_parent); //Unite both vertexes linked by the edge in the data structure's tree.
             }
         }
-        dsu.printGroups(classes);
-        dsu.write_results_file();
+        dsu.printGroups(classes); // Optional, hence, its complexity was not calculated
+        dsu.write_results_file(); // Optional, hence, its complexity was not calculated
     }
 };

@@ -76,8 +76,8 @@ int main()
     }
 
     //Calculates the results and shows the MSTs.
-    std::cout << "\n--------------- KRUSKAL MST ---------------\n" << std::endl;
-    graph_kruskal.kruskalAlgorithm(classes_kruskal, k);
+    //std::cout << "\n--------------- KRUSKAL MST ---------------\n" << std::endl;
+    //graph_kruskal.kruskalAlgorithm(classes_kruskal, k);
     std::cout << std::endl;
     std::cout << "\n--------------- PRIM MST ---------------\n" << std::endl;
     graph_prim.calculate_Prim(k, classes_prim);

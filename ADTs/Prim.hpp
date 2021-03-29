@@ -65,17 +65,95 @@ class Graph_Prim
             for (int i = 1; i < vertex; ++i)
                 std::cout << "Prim verts: " << parent_vertex[i] << " <-> " << i << " || " << vertex_key[i] << std::endl;
 
-            int i =1;
-            int t = 0;
-            while(i < 788) //Function to unite vertices. PS: A binary heap has been not implemented yet to collect the k highest values.
+            int j = 1, i = 0, group = 0, groups[k];;
+            float tmp[k];
+
+            /*while(j < 788) //Function to unite vertices. PS: A binary heap has been not implemented yet to collect the k highest values.
             {
-                if (vertex_key[i] >= 1.27){
-                    classes[i-1] = t;
+                float tmp = 0;
+
+                if (vertex_key[j] >= 1.27)
+                {
+                    classes[j-1] = t;
                     t++;
                 }
-                classes[i] = t;
+                classes[j] = t;
                 i++;
+            }*/
+
+            for (i = 0; i < k; i++)
+            {
+                tmp[i] = -1.0f;
+                j = 1;
+                while(j < 788) //Function to get the edges with the biggest cost.
+                {
+                    if(i == 0)
+                    {
+                        if (vertex_key[j] >= tmp[i])
+                        {
+                            tmp[i] = vertex_key[j];
+                        }
+                    }
+                    else
+                    {
+                        if (vertex_key[j] >= tmp[i] && vertex_key[j] < tmp[i-1])
+                        {
+                            tmp[i] = vertex_key[j];
+                        }
+                    }
+                    j++;
+                }
             }
+
+            printf("\n\n\n\n");
+
+            for(int i = k-1; i >= 0; i--)
+            { // prints the edges with biggest weights
+                printf("%f, ", tmp[i]);
+            }
+
+
+
+            for (i = 0; i < k; i++)
+            {
+                j = 1;
+                while(j < 788) //Function to find the positions in which the biggest cost edges are located.
+                {
+                    if (vertex_key[j] == tmp[k-1 - i])
+                    {
+                        classes[j-1] = group;
+                        groups[i] = j-1;
+                        group++;
+                    }
+                    classes[j] = group;
+                    j++;
+                }
+            }
+
+            for(i = 1; i < k; i++)
+            {   // Orders the classes's positions on the array.
+                int tmp;
+                if(groups[i-1] > groups[i])
+                {
+                    tmp = groups[i];
+                    groups[i] = groups[i-1];
+                    groups[i-1] = tmp;
+                }
+            }
+
+            for(i = 0; i < k; i++)
+                printf("\n%d, ", groups[i]);
+
+            for(int j = 0; j < k-1; j++)
+                for(i = 0 + groups[j]; i < 788; i++) // Used to classify the vertices based on the positions found in the function above
+                {
+                    if(i >= groups[j] && i < groups[j+1])
+                        classes[i] = j+1;
+                    else if(i >= groups[j])
+                        classes[i] = j+2;
+                }
+
+
 
             write_results_file(classes);
         }
