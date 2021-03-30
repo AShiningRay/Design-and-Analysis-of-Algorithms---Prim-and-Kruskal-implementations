@@ -55,7 +55,7 @@ class disjointSetUnion // Class to simulate the Disjoint Set Union (aka. Union F
 
 		for (int i = 0; i < numverts; i ++) // Complexity: O(V)
             arr[i] = -1;
-
+        i = 0;
 		while(i < numverts)
         { // This algorithm will run through all edges, so it will be O(E)
 	        for (int j = 0; j < i; j++)
