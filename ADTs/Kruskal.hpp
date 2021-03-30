@@ -133,7 +133,7 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
     std::vector< std::pair<float, integer_pair> > edgesvector{};
 
     public:
-    Graph_Kruskal(int vertexnum, int edgenum) // Creates the Kruskal's Graph, passing the number of edges and vertexes.
+    Graph_Kruskal(int vertexnum, int edgenum) // Creates the Kruskal's Graph, passing the number of edges and vertices.
     {
         this->vertexnum = vertexnum;
         this->edgenum = edgenum;
@@ -141,7 +141,7 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
 
     void addEdgeAndWeight(int vert1, int vert2, float weight)
     {
-        edgesvector.push_back({weight, {vert1, vert2}}); // Adds an edge between vertexes
+        edgesvector.push_back({weight, {vert1, vert2}}); // Adds an edge between vertices
     }
 
     void kruskalAlgorithm(int *classes, int k) // Calculates the Minimum Spanning Tree using Kruskal's algorithm
@@ -150,9 +150,9 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
 
         sort(edgesvector.begin(), edgesvector.end()); // Sort the stack of edges ordered by cost
 
-        disjointSetUnion dsu(vertexnum); // Creates a Disjoint Set Union with the total amount of vertexes
+        disjointSetUnion dsu(vertexnum); // Creates a Disjoint Set Union with the total amount of vertices
 
-        std::vector< std::pair<float, integer_pair> >::iterator edge_iteration; // Allocates a vector of edges between vertexes to be used as as a iterator below
+        std::vector< std::pair<float, integer_pair> >::iterator edge_iteration; // Allocates a vector of edges between vertices to be used as as a iterator below
 
         for (edge_iteration = edgesvector.begin(); edge_iteration != edgesvector.end(); edge_iteration++) // Check edge by edge to find its parent in the MST
         { // Runs through all edges, which means that it has the upper bound complexity of O(E) * O(E+2V), due to its nested function to check the amount of clusters.
@@ -171,7 +171,7 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
 
                 mst_weightval += edge_iteration->first; // Sum the weight of the path to the total weight of the MST
 
-                dsu.unionByRank(vert1_parent, vert2_parent); //Unite both vertexes linked by the edge in the data structure's tree.
+                dsu.unionByRank(vert1_parent, vert2_parent); //Unite both vertices linked by the edge in the data structure's tree.
             }
         }
         dsu.printGroups(classes); // Optional, hence, its complexity was not calculated, but if needed, the complexity is nearly the same as the getAmountOfClusters
