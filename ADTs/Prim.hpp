@@ -38,7 +38,6 @@ class Graph_Prim
             int origin = 0;
             vertex_key[origin] = 0;
             priority_q.push( std::make_pair(0, origin) );
-            int cont=0;
             while (!priority_q.empty()) //Complexity O(E log V)
             {
                 int vert1 = priority_q.top().second;
@@ -50,7 +49,6 @@ class Graph_Prim
 
                 for (vertex_iterator = adjacency[vert1].begin(); vertex_iterator != adjacency[vert1].end(); ++vertex_iterator)
                 {
-                    cont++;
                     int vert2 = (*vertex_iterator).first; // Finds the second vertex of the pair
                     float weight = (*vertex_iterator).second; // Gets the weight of the edge between both vertexes
 
@@ -68,7 +66,6 @@ class Graph_Prim
                 std::cout << "Prim verts: " << parent_vertex[i] << " <-> " << i << " || " << vertex_key[i] << std::endl;
                 vector_dist[i] = vertex_key[i]; //Sotage the weights in a different array.
             }
-            printf("VALOR %d\n", cont++);
 
             shellSort(vector_dist, 788); //Shellsort will sort the numbers in ascending order.
 
@@ -101,7 +98,7 @@ class Graph_Prim
             write_results_file(classes); //Wirte results on a file
         }
 
-        void shellSort(float *vet, int size_vet) { //Complexity does not defined.
+        void shellSort(float *vet, int size_vet) { //"Its complexity cannot be ascertained.
             int i , j;
             float value_aux;
             int t = 1;
