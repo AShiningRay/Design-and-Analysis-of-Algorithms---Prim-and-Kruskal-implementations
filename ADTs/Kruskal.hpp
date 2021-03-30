@@ -148,7 +148,12 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
     {
         int mst_weightval = 0; // Defines the initial total weight of the MST.
 
-        sort(edgesvector.begin(), edgesvector.end()); // Sort the stack of edges ordered by cost
+
+        /*Simplified sorting algorithm, the push back is still up there, but the actual sorting can now be viewed in a more straightforward way,
+        instead of being with the edge insertion and placement. According to the C++ STL, it's complexity is O(NlogN), but since kruskal deals with
+        edges, the complexity is O(ElogE), sorting the edges in the stack by its cost.
+        */
+        sort(edgesvector.begin(), edgesvector.end());
 
         disjointSetUnion dsu(vertexnum); // Creates a Disjoint Set Union with the total amount of vertices
 
