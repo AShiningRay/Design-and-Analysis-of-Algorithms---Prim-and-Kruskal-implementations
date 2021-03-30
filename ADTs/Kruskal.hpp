@@ -49,27 +49,28 @@ class disjointSetUnion // Class to simulate the Disjoint Set Union (aka. Union F
     }
 
     int getAmountOfClusters()
-    { //Return the number of groups created.
+    { //Return the number of groups created. O(E+2V)
 		int cont = 0, i = 0, arr[788];
 		bool repeated = false;
 
-		for (int i = 0; i < 788; i ++) // Complexity: O(n)
+		for (int i = 0; i < 788; i ++) // Complexity: O(V)
             arr[i] = -1;
 
 		while(i < 788)
-        { // O( (N² - N)/2)
+        { // This algorithm will run through all edges, so it will be O(E)
 	        for (int j = 0; j < i; j++)
                 if(arr[j] == parentnode[i])
                     repeated = true;
 
-            if(repeated == false) arr[i] = parentnode[i]; // O(1)
+            if(repeated == false)
+                arr[i] = parentnode[i];
 
-            i++; // O(1)
-            repeated = false; // O(1)
+            i++;
+            repeated = false;
 	    }
 
 	    for(i=0; i < 788; i ++)
-        { //O(n)
+        { //O(V)
             if(arr[i] != -1)
                 cont++;
         }
@@ -82,11 +83,13 @@ class disjointSetUnion // Class to simulate the Disjoint Set Union (aka. Union F
 	    bool repeated = false;
 	    int i = 0, arr[788];
 
-	    for (int i = 0; i < 788; i ++) // O(n)
+	    for(i=0; i < 788; i++)
             arr[i] = -1;
 
+        i=0;
+
 	    while(i < 788)
-        { // O( (N² - N)/2)
+        {
             classes[i] = parentnode[i];
 	        for (int j = 0; j < i; j++)
                 if(arr[j] == parentnode[i])
@@ -108,7 +111,7 @@ class disjointSetUnion // Class to simulate the Disjoint Set Union (aka. Union F
     //Function to save the results in a txt file.
 	void write_results_file()
     {
-        std::ofstream file ("./Results/results_kruskal.txt");
+        std::ofstream file ("./Results/results_kruskala.txt");
 
         if (file.is_open())
         { // O(n)
@@ -152,8 +155,8 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
         std::vector< std::pair<float, integer_pair> >::iterator edge_iteration; // Allocates a vector of edges between vertexes to be used as as a iterator below
 
         for (edge_iteration = edgesvector.begin(); edge_iteration != edgesvector.end(); edge_iteration++) // Check edge by edge to find its parent in the MST
-        { // Runs through all edges, which means that it also has the upper bound complexity of O((N² - N)/2) * O((N² - N)/2).
-            if(k == dsu.getAmountOfClusters()) // O( (N² - N)/2)
+        { // Runs through all edges, which means that it has the upper bound complexity of O(E) * O(E+2V), due to its nested function to check the amount of clusters.
+            if(k == dsu.getAmountOfClusters()) // From the function analysis, we have the time complexity of O(E+2V)
                 break;
 
             int vert1 = edge_iteration->second.first;
@@ -171,7 +174,7 @@ class Graph_Kruskal // Struct used to simulate (i.e. Visually demonstrate) a gra
                 dsu.unionByRank(vert1_parent, vert2_parent); //Unite both vertexes linked by the edge in the data structure's tree.
             }
         }
-        //dsu.printGroups(classes); // Optional, hence, its complexity was not calculated, but if needed, the complexity is the same as the getAmountOfClusters
+        dsu.printGroups(classes); // Optional, hence, its complexity was not calculated, but if needed, the complexity is nearly the same as the getAmountOfClusters
         dsu.write_results_file(); // O(n)
     }
 };
