@@ -111,7 +111,7 @@ class disjointSetUnion // Class to simulate the Disjoint Set Union (aka. Union F
     //Function to save the results in a txt file.
 	void write_results_file()
     {
-        std::ofstream file ("./Results/results_kruskala.txt");
+        std::ofstream file ("./Results/results_kruskal.txt");
 
         if (file.is_open())
         { // O(n)
